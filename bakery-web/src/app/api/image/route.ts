@@ -11,24 +11,23 @@ export async function GET(request: NextRequest) {
   }
 
   // Resolve absolute path relative to the root Bakery directory (parent of bakery-web)
-  const absolutePath = path.join(process.cwd(), '../', imagePath);
+  const baseDir = path.normalize(path.join(process.cwd(), '../'));
+  const absolutePath = path.normalize(baseDir + '/' + imagePath);
 
   try {
     // Prevent directory traversal attacks outside root workspace
-    const rootDir = path.resolve(path.join(process.cwd(), '../'));
-    const resolvedPath = path.resolve(absolutePath);
-    if (!resolvedPath.startsWith(rootDir)) {
+    if (!absolutePath.startsWith(baseDir)) {
       return new NextResponse('Forbidden path traversal', { status: 403 });
     }
 
-    let finalResolvedPath = resolvedPath;
+    let finalResolvedPath = absolutePath;
     if (!fs.existsSync(finalResolvedPath)) {
       // Try fallback to 'cakes copy' if the request was for 'cakes/...'
       if (imagePath.startsWith('cakes/') || imagePath.startsWith('CAKES/')) {
-        const fallbackPath = path.join(process.cwd(), '../', 'cakes copy', imagePath.substring(6));
-        const resolvedFallback = path.resolve(fallbackPath);
-        if (resolvedFallback.startsWith(rootDir) && fs.existsSync(resolvedFallback)) {
-          finalResolvedPath = resolvedFallback;
+        const subPath = imagePath.substring(6);
+        const fallbackPath = path.normalize(baseDir + '/cakes copy/' + subPath);
+        if (fallbackPath.startsWith(baseDir) && fs.existsSync(fallbackPath)) {
+          finalResolvedPath = fallbackPath;
         }
       }
     }
@@ -36,10 +35,9 @@ export async function GET(request: NextRequest) {
     if (!fs.existsSync(finalResolvedPath)) {
       // Try fallback for flat files directly inside 'cakes/' if nested folder structure is missing
       const baseName = path.basename(imagePath);
-      const directPath = path.join(process.cwd(), '../', 'cakes', baseName);
-      const resolvedDirect = path.resolve(directPath);
-      if (resolvedDirect.startsWith(rootDir) && fs.existsSync(resolvedDirect)) {
-        finalResolvedPath = resolvedDirect;
+      const directPath = path.normalize(baseDir + '/cakes/' + baseName);
+      if (directPath.startsWith(baseDir) && fs.existsSync(directPath)) {
+        finalResolvedPath = directPath;
       }
     }
 
