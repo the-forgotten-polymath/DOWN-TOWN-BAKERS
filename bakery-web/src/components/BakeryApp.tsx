@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ShoppingBag, Search, MapPin, Heart, Star, Sparkles, X, Check, 
-  ChevronRight, Cake, Award, Truck, ShieldCheck, Flame, Plus, Minus
+  ChevronRight, Cake, Award, Truck, ShieldCheck, Flame, Plus, Minus, Menu
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getCleanProducts, ProductItem } from '@/data/products';
@@ -219,6 +219,7 @@ export default function BakeryApp() {
 
   // Pagination state: default showing 30 cakes
   const [visibleCount, setVisibleCount] = useState<number>(30);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState<boolean>(false);
   useEffect(() => {
     setVisibleCount(30);
   }, [selectedCategory, selectedFlavour, searchQuery, isEgglessOnly]);
@@ -444,7 +445,14 @@ export default function BakeryApp() {
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             
             {/* LEFT LOGO: Bold White Cursive Look mimicking Bakingo style */}
-            <div className="flex items-center shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <button
+                onClick={() => setIsMobileNavOpen(true)}
+                className="block md:hidden p-1.5 rounded-lg hover:bg-white/10 active:scale-95 transition-all text-white cursor-pointer"
+                aria-label="Open Mobile Navigation Menu"
+              >
+                <Menu className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
+              </button>
               <a 
                 href="#menu" 
                 onClick={(e) => {
@@ -1377,7 +1385,7 @@ export default function BakeryApp() {
             </button>
           </motion.div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
             <AnimatePresence>
               {filteredProducts.slice(0, visibleCount).map((prod, i) => {
                 const isSaved = wishlistIds.includes(prod.id);
@@ -1393,19 +1401,19 @@ export default function BakeryApp() {
                       ease: [0.16, 1, 0.3, 1] 
                     }}
                     key={prod.id}
-                    className="group bg-white rounded-2xl overflow-hidden border border-stone-200/80 hover:border-rose-200 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative"
+                    className="group bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-stone-200/80 hover:border-rose-200 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative"
                   >
                     
                     {/* Badge stickers envelope */}
-                    <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5 items-start">
+                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 items-start">
                       {prod.isBestseller && (
-                        <span className="bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-md shadow-xs tracking-wider">
+                        <span className="bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[8px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded shadow-xs tracking-wider">
                           🔥 Bestseller
                         </span>
                       )}
                       {prod.isEggless && (
-                        <span className="bg-emerald-500/95 backdrop-blur-xs text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-md shadow-xs tracking-wider inline-flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+                        <span className="bg-emerald-500/95 backdrop-blur-xs text-white text-[8px] sm:text-[9px] font-black uppercase px-1.5 py-0.5 rounded shadow-xs tracking-wider inline-flex items-center gap-1">
+                          <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-white animate-ping"></span>
                           <span>Eggless</span>
                         </span>
                       )}
@@ -1417,10 +1425,10 @@ export default function BakeryApp() {
                         e.stopPropagation();
                         toggleWishlist(prod.id, prod.name);
                       }}
-                      className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs hover:bg-white text-stone-600 shadow-xs flex items-center justify-center transition-transform hover:scale-110"
+                      className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 backdrop-blur-xs hover:bg-white text-stone-600 shadow-xs flex items-center justify-center transition-transform hover:scale-110"
                       aria-label="Toggle wishlist item"
                     >
-                      <Heart className={`w-4 h-4 transition-colors ${isSaved ? 'fill-rose-500 text-rose-500' : 'hover:text-rose-500'}`} />
+                      <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-colors ${isSaved ? 'fill-rose-500 text-rose-500' : 'hover:text-rose-500'}`} />
                     </button>
 
                     {/* Master Thumbnail Envelope */}
@@ -1436,60 +1444,60 @@ export default function BakeryApp() {
                       
                       {/* Secondary floating views length banner if rich data resolved */}
                       {prod.angles.length > 1 && (
-                        <span className="absolute bottom-2 left-2 bg-stone-900/60 backdrop-blur-xs text-white text-[9px] px-1.5 py-0.5 rounded font-mono pointer-events-none z-10">
+                        <span className="absolute bottom-1.5 left-1.5 sm:bottom-2 sm:left-2 bg-stone-900/60 backdrop-blur-xs text-white text-[8px] sm:text-[9px] px-1 sm:px-1.5 py-0.5 rounded font-mono pointer-events-none z-10">
                           +{prod.angles.length - 1} angles
                         </span>
                       )}
 
                       {/* Customizer trigger overlay wrapper */}
-                      <div className="absolute inset-0 bg-stone-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-3">
-                        <span className="bg-white text-stone-900 text-xs font-bold px-3 py-1.5 rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                          Customize Options
+                      <div className="absolute inset-0 bg-stone-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 sm:p-3">
+                        <span className="bg-white text-stone-900 text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 text-center">
+                          Options
                         </span>
                       </div>
                     </div>
 
                     {/* Product Details Block */}
-                    <div className="p-4 flex-1 flex flex-col justify-between">
+                    <div className="p-2 sm:p-4 flex-1 flex flex-col justify-between">
                       <div>
                         {/* Meta category label */}
-                        <div className="flex items-center justify-between text-[10px] text-stone-400 font-bold uppercase tracking-wider mb-1">
-                          <span>{prod.category.replace('_', ' ')}</span>
-                          <span className="text-stone-500 font-medium capitalize font-sans">
-                            {prod.flavour} base
+                        <div className="flex items-center justify-between text-[8px] sm:text-[10px] text-stone-400 font-bold uppercase tracking-wider mb-0.5 sm:mb-1">
+                          <span className="truncate max-w-[60%]">{prod.category.replace('_', ' ')}</span>
+                          <span className="text-stone-500 font-medium capitalize font-sans shrink-0">
+                            {prod.flavour}
                           </span>
                         </div>
 
                         {/* Title click link */}
                         <h3 
                           onClick={() => openCustomizer(prod)}
-                          className="font-playfair font-bold text-stone-900 text-sm line-clamp-2 leading-snug cursor-pointer hover:text-rose-600 transition-colors"
+                          className="font-playfair font-bold text-stone-900 text-xs sm:text-sm line-clamp-2 leading-snug cursor-pointer hover:text-rose-600 transition-colors"
                           title={prod.name}
                         >
                           {prod.name}
                         </h3>
 
                         {/* Rating row */}
-                        <div className="flex items-center gap-1 mt-1.5 mb-3">
-                          <div className="flex text-amber-400 text-xs">
+                        <div className="flex items-center gap-0.5 sm:gap-1 mt-1 sm:mt-1.5 mb-2 sm:mb-3">
+                          <div className="flex text-amber-400 text-[9px] sm:text-xs">
                             {'★★★★★'.split('').map((s, idx) => (
                               <span key={idx}>{s}</span>
                             ))}
                           </div>
-                          <span className="text-xs font-bold text-stone-700 ml-1">{prod.rating}</span>
-                          <span className="text-[10px] text-stone-400 font-medium">({prod.reviews})</span>
+                          <span className="text-[10px] sm:text-xs font-bold text-stone-700 ml-0.5 sm:ml-1">{prod.rating}</span>
+                          <span className="text-[8px] sm:text-[10px] text-stone-400 font-medium hidden sm:inline">({prod.reviews})</span>
                         </div>
                       </div>
 
                       {/* Pricing Row & Instant Cart Insertion */}
-                      <div className="pt-2 border-t border-stone-100 flex items-center justify-between mt-auto">
-                        <div>
-                          <span className="text-[10px] text-stone-400 block uppercase font-medium leading-none">Starting at</span>
-                          <div className="flex items-baseline gap-1.5">
-                            <span className="text-base font-extrabold text-stone-900">
+                      <div className="pt-1.5 sm:pt-2 border-t border-stone-100 flex items-center justify-between mt-auto gap-1">
+                        <div className="min-w-0">
+                          <span className="text-[8px] sm:text-[10px] text-stone-400 block uppercase font-medium leading-none">Starting at</span>
+                          <div className="flex items-baseline gap-1 flex-wrap">
+                            <span className="text-sm sm:text-base font-extrabold text-stone-900 leading-tight">
                               ₹{prod.price}
                             </span>
-                            <span className="text-xs text-stone-400 line-through">
+                            <span className="text-[9px] sm:text-xs text-stone-400 line-through leading-tight">
                               ₹{prod.originalPrice}
                             </span>
                           </div>
@@ -1498,10 +1506,10 @@ export default function BakeryApp() {
                         {/* Direct fast cart trigger */}
                         <button 
                           onClick={() => handleInstantAdd(prod)}
-                          className="w-9 h-9 bg-stone-100 hover:bg-rose-50 hover:text-rose-600 rounded-xl flex items-center justify-center text-stone-700 transition-colors shrink-0"
-                          title="Quick Add 0.5kg Base to box"
+                          className="w-7 h-7 sm:w-9 sm:h-9 bg-stone-100 hover:bg-rose-50 hover:text-rose-600 rounded-lg sm:rounded-xl flex items-center justify-center text-stone-700 transition-colors shrink-0 cursor-pointer"
+                          title="Quick Add Base to box"
                         >
-                          <Plus className="w-4 h-4 stroke-[2.5]" />
+                          <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
                         </button>
                       </div>
 
@@ -2418,6 +2426,168 @@ export default function BakeryApp() {
 
               </motion.div>
             </div>
+
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ======================================================================= */}
+      {/* MOBILE FULL-HEIGHT SLIDE DRAWER MENU */}
+      {/* ======================================================================= */}
+      <AnimatePresence>
+        {isMobileNavOpen && (
+          <div className="fixed inset-0 z-50 overflow-hidden md:hidden">
+            
+            {/* Backdrop */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileNavOpen(false)}
+              className="absolute inset-0 bg-stone-900/60 backdrop-blur-xs transition-opacity"
+            />
+
+            {/* Slide Panel */}
+            <motion.div 
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="absolute inset-y-0 left-0 max-w-xs w-full bg-white shadow-2xl flex flex-col overflow-hidden"
+            >
+              
+              {/* Premium Top Bar */}
+              <div className="p-4 bg-[#dc2626] text-white flex items-center justify-between shadow-sm">
+                <div>
+                  <span className="font-playfair italic font-extrabold text-xl tracking-tight block">
+                    Downtown Bakers
+                  </span>
+                  <span className="text-[9px] text-rose-100 font-sans tracking-widest uppercase block">
+                    Mobile Artisan Portal
+                  </span>
+                </div>
+                <button 
+                  onClick={() => setIsMobileNavOpen(false)}
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors text-white"
+                  aria-label="Close Mobile Navigation Menu"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Master scrolling navigation links block */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-6">
+                
+                {/* Instant switchers */}
+                <div>
+                  <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block mb-2 px-1">
+                    Quick Selections
+                  </span>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button 
+                      onClick={() => {
+                        setSelectedCategory('all');
+                        setIsBestsellerOnly(!isBestsellerOnly);
+                        setIsMobileNavOpen(false);
+                      }}
+                      className={`p-2.5 rounded-xl text-left border text-xs font-bold transition-all ${isBestsellerOnly ? 'bg-amber-50 border-amber-300 text-amber-800' : 'bg-stone-50 border-stone-200 text-stone-700'}`}
+                    >
+                      🔥 Bestsellers
+                    </button>
+                    <button 
+                      onClick={() => {
+                        setIsEgglessOnly(!isEgglessOnly);
+                        setIsMobileNavOpen(false);
+                      }}
+                      className={`p-2.5 rounded-xl text-left border text-xs font-bold transition-all ${isEgglessOnly ? 'bg-emerald-50 border-emerald-300 text-emerald-800' : 'bg-stone-50 border-stone-200 text-stone-700'}`}
+                    >
+                      🌿 Pure Eggless
+                    </button>
+                  </div>
+                </div>
+
+                {/* Categories catalog strip mapping list */}
+                <div>
+                  <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block mb-2 px-1">
+                    Confectionery Master Categories
+                  </span>
+                  <div className="space-y-1">
+                    {[
+                      { name: 'All Cakes', cat: 'all', emoji: '🎂' },
+                      { name: 'Trending Fresh Drops', cat: 'trending-cakes', emoji: '✨' },
+                      { name: 'Gourmet Bento Cakes', cat: 'bento-cakes', emoji: '🍱' },
+                      { name: 'Heart Shaped Delights', cat: 'heart-shape-cakes', emoji: '❤️' },
+                      { name: 'Luxe Cheesecakes', cat: 'cheesecakes', emoji: '🧀' },
+                      { name: 'Assorted Hampers', cat: 'bakery-baskets', emoji: '🧺' },
+                      { name: 'Signature Pastry Boxes', cat: 'pastries', emoji: '🍰' },
+                      { name: 'Premium Dry Cakes', cat: 'dry-cakes', emoji: '🍞' }
+                    ].map((item) => (
+                      <button
+                        key={item.cat}
+                        onClick={() => {
+                          setSelectedCategory(item.cat);
+                          setIsMobileNavOpen(false);
+                          // Auto reset string query for unhindered filtered display
+                          setSearchQuery('');
+                          const el = document.getElementById('menu');
+                          if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                        className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors text-left ${selectedCategory === item.cat ? 'bg-rose-50 text-rose-600 font-bold' : 'hover:bg-stone-50 text-stone-700 font-medium'}`}
+                      >
+                        <span className="text-xs flex items-center gap-2.5">
+                          <span className="text-base">{item.emoji}</span>
+                          <span>{item.name}</span>
+                        </span>
+                        <ChevronRight className={`w-3.5 h-3.5 ${selectedCategory === item.cat ? 'text-rose-600' : 'text-stone-400'}`} />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Sub-specialties */}
+                <div>
+                  <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block mb-2 px-1">
+                    Occasions & Milestones
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Anniversary Cakes', '1st Birthday Cakes', 'Cakes For Husband', 'Cakes For Wife', 'Cakes For Mother', 'Half Birthday Cakes'].map((tag) => (
+                      <button
+                        key={tag}
+                        onClick={() => {
+                          const slug = deriveSlug(tag);
+                          setSelectedCategory(slug);
+                          setIsMobileNavOpen(false);
+                          setSearchQuery('');
+                          const el = document.getElementById('menu');
+                          if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                        className="bg-stone-100 hover:bg-rose-50 hover:text-rose-600 text-[11px] font-medium text-stone-700 px-3 py-1.5 rounded-lg transition-colors"
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Contact information card */}
+                <div className="bg-stone-50 p-3.5 rounded-xl border border-stone-200/80 text-xs space-y-1.5">
+                  <span className="font-bold text-stone-900 block">📞 Downtown Direct Assistance</span>
+                  <p className="text-stone-500 text-[11px]">
+                    Have bulk corporate requirements or tailored premium wedding tier blueprints? Call us 24/7.
+                  </p>
+                  <a href="tel:18001234567" className="text-rose-600 font-bold block pt-1 hover:underline">
+                    1800-DOWNTOWN (Toll-Free)
+                  </a>
+                </div>
+
+              </div>
+
+              {/* Bottom footer sticker inside mobile slider */}
+              <div className="p-3 bg-stone-50 border-t border-stone-100 text-center text-[10px] text-stone-400 font-medium">
+                Downtown Bakers Mobile v2.1 • Crafted with Passion
+              </div>
+
+            </motion.div>
 
           </div>
         )}
