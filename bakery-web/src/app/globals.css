@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-playfair: var(--font-playfair), serif;
+  --font-outfit: var(--font-outfit), sans-serif;
+  --color-primary: #e11d48;
+  --color-primary-hover: #be123c;
+  --color-brand-cream: #fdfbf7;
+}
+
+/* Custom aesthetic utility classes for glassmorphism and custom scrollbars */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.glass-modal {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Custom premium scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d6d3d1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a29e;
+}
