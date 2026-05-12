@@ -49,154 +49,6 @@ const deriveSlug = (item: string, parentCat: string = '') => {
     .replace(/-+$/g, '');
 };
 
-// Helper to precisely fetch deterministic visual preview images for each subcategory dropdown item card
-const getDropdownItemImage = (item: string): string => {
-  const enc = (p: string) => '/api/image?path=' + encodeURIComponent(p);
-  switch (item) {
-    // CAKES Panel
-    case 'Anime Cakes': return enc('cakes/anime-cakes/Baby-Goku-DBZ-Theme-Cake/image_1.jpg');
-    case 'Mango Cakes': return enc('cakes/mango-cakes/Delicious-Mango-Cake/image_1.jpg');
-    case 'Fire Cakes': return enc('cakes/fire-cakes/Flaming-Surprise-Cake/image_1.jpg');
-    case 'Ribbon Cakes': return enc('cakes/ribbon-cakes/Elegant-Ribbon-Bow-Cake/image_1.jpg');
-    case 'Fresh Drops': return enc('cakes/trending-cakes/Fresh-Blossom-Cake/image_1.jpg');
-    case 'Cricket Cakes': return enc('cakes/cricket-cakes/Cricket-Pitch-Theme-Cake/image_1.jpg');
-    case 'Gourmet Cakes': return enc('cakes/gourmet-cakes/Luxury-Truffle-Indulgence/image_1.jpg');
-    case 'Bento Cakes': return enc('BENTO/anniversary-bento-cakes/Anniversary-Calendar-Bento-Cake/image_1.jpg');
-    case 'Camera Cakes': return enc('cakes/camera-cakes/Vintage-Camera-Fondant-Cake/image_1.jpg');
-    case 'Labubu Cakes': return enc('cakes/labubu-cakes/Labubu-Theme-Fun-Cake/image_1.jpg');
-    case 'Pinata Cakes': return enc('cakes/pinata-cakes/Choco-Heart-Pinata-Cake/image_1.jpg');
-    case 'Drip Cakes': return enc('cakes/drip-cakes/Berry-Drip-Sensation/image_1.jpg');
-    
-    // By Type
-    case 'Bestsellers': return enc('cakes/best-seller/Signature-Choco-Truffle/image_1.jpg');
-    case 'Eggless Cakes': return enc('cakes/eggless-cakes/Pure-Vanilla-Joy/image_1.jpg');
-    case 'Photo Cakes': return enc('cakes/photo-cakes/Personalised-Memory-Cake/image_1.jpg');
-    case 'Cheese Cakes': return enc('cakes/cheesecakes/Classic-New-York-Cheesecake/image_1.jpg');
-    case 'Half Cakes': return enc('cakes/half-cakes/Six-Months-Half-Way-Cake/image_1.jpg');
-    case 'Heart Shaped Cakes': return enc('cakes/heart-shape-cakes/Romantic-Red-Velvet-Heart/image_1.jpg');
-    case 'Rose Cakes': return enc('cakes/rose-cakes/Pink-Rosette-Swirl-Cake/image_1.jpg');
-    case 'All Cakes': return '/hero_cake_1778560729107.png';
-
-    // By Flavours
-    case 'Chocolate Cakes': return enc('cakes/chocolate-cakes/Ultimate-Choco-Overload/image_1.jpg');
-    case 'Pineapple Cakes': return enc('cakes/pineapple-cakes/Juicy-Pineapple-Delight/image_1.jpg');
-    case 'Fruit Cakes': return enc('cakes/fruit-cakes/Fresh-Fruit-Fiesta/image_1.jpg');
-    case 'Butterscotch Cakes': return enc('cakes/butterscotch-cakes/Crunchy-Butterscotch-Caramel/image_1.jpg');
-    case 'Blueberry Cakes': return enc('cakes/blueberry-cakes/Lush-Blueberry-Cream-Cake/image_1.jpg');
-    case 'Black Forest Cakes': return enc('cakes/black-forest-cakes/Authentic-Black-Forest/image_1.jpg');
-    case 'Vanilla Cakes': return enc('cakes/vanilla-cakes/Pristine-Vanilla-Elegance/image_1.jpg');
-    case 'Red Velvet Cakes': return enc('cakes/red-velvet-cakes/Royal-Red-Velvet-Cream/image_1.jpg');
-    case 'Kit Kat Cakes': return enc('cakes/kit-kat-cakes/Kit-Kat-Gems-Overload/image_1.jpg');
-    case 'Oreo Cakes': return enc('cakes/oreo-cakes/Creamy-Oreo-Crunch-Cake/image_1.jpg');
-
-    // BENTO Panel
-    case 'Love': return enc('BENTO/love-bento-cakes/Love-Heart-Bento-Cake/image_1.jpg');
-    case 'Birthday': return enc('BENTO/birthday-bento-cakes/Pastel-Rainbow-Bento-Cake/image_1.jpg');
-    case 'Anniversary': return enc('BENTO/anniversary-bento-cakes/Anniversary-Calendar-Bento-Cake/image_1.jpg');
-    case 'Mom': return enc('BENTO/mothers-day-bento-cakes/Best-Mom-Ever-Bento-Cake/image_1.jpg');
-    case 'Friend': return enc('BENTO/for-friend/Cake-It-Easy-Bento-Cake/image_1.jpg');
-    case 'All Bento': return enc('BENTO/bento-cakes/Cherry-Love-Bento-Cake/image_1.jpg');
-
-    // THEME CAKES - Kids
-    case '1st Birthday Cakes': return enc('THEMED CAKES/1st-birthday-cakes/Baby-Shark-Theme-Fondant-Cake/image_1.jpg');
-    case 'Princess Cakes': return enc('THEMED CAKES/princess-cakes/Magical-Princess-Castle/image_1.jpg');
-    case 'Animal Cakes': return enc('THEMED CAKES/animal-cakes/Safari-Jungle-Animal-Cake/image_1.jpg');
-    case 'Masha & The Bear Cakes': return enc('THEMED CAKES/masha-and-the-bear-cakes/Masha-Bear-Fun-Cake/image_1.jpg');
-    case 'Cakes For Boys': return enc('THEMED CAKES/cakes-for-boys/Super-Racer-Car-Cake/image_1.jpg');
-    case 'Cakes For Girls': return enc('THEMED CAKES/cakes-for-girls/Unicorn-Fantasy-Cake/image_1.jpg');
-    case 'Number Cakes': return enc('THEMED CAKES/number-cakes/Vibrant-Number-One-Cake/image_1.jpg');
-    case 'Alphabet Cakes': return enc('THEMED CAKES/alphabet-cakes/Floral-Alphabet-Letter-Cake/image_1.jpg');
-    case 'Car And Vehicle Cakes': return enc('THEMED CAKES/car-and-vehicle-cakes/Monster-Truck-Theme-Cake/image_1.jpg');
-    case 'Baby Shark Cakes': return enc('THEMED CAKES/baby-shark-cakes/Baby-Shark-Underwater-Cake/image_1.jpg');
-    case 'Thomas And Friends Cakes': return enc('THEMED CAKES/thomas-and-friends-cakes/Thomas-Train-Adventure/image_1.jpg');
-    case 'Winnie The Pooh Cakes': return enc('THEMED CAKES/winnie-the-pooh-cakes/Pooh-Honey-Pot-Cake/image_1.jpg');
-    case 'All Kids Cakes': return enc('THEMED CAKES/1st-birthday-cakes/Bamboo-N-Blooms-Panda-Cake/image_1.jpg');
-
-    // Grown Up Cakes
-    case 'Makeup Cakes': return enc('THEMED CAKES/makeup-cakes/Glamorous-Makeup-Kit-Cake/image_1.jpg');
-    case 'Bride To Be Cakes': return enc('THEMED CAKES/bride-to-be-cakes/Elegant-Bride-To-Be-Gown/image_1.jpg');
-    case 'Wedding Cakes': return enc('THEMED CAKES/wedding-cakes/Multi-Tier-Floral-Wedding-Cake/image_1.jpg');
-    case 'Gym Cakes': return enc('THEMED CAKES/gym-cakes/Fitness-Dumbbell-Theme-Cake/image_1.jpg');
-    case 'Party Cakes': return enc('THEMED CAKES/party-cakes/Disco-Ball-Celebration-Cake/image_1.jpg');
-    case 'BTS Cakes': return enc('THEMED CAKES/bts-cakes/BTS-Army-Theme-Cake/image_1.jpg');
-    case 'Police Cakes': return enc('THEMED CAKES/police-cakes/Police-Uniform-Cap-Cake/image_1.jpg');
-    case 'Army Cakes': return enc('THEMED CAKES/army-cakes/Camouflage-Tank-Theme-Cake/image_1.jpg');
-    case 'Beer Cakes': return enc('THEMED CAKES/beer-cakes/Chilled-Beer-Mug-Cake/image_1.jpg');
-    case 'Bachelor Cakes': return enc('THEMED CAKES/bachelor-cakes/Bachelor-Party-Fun-Cake/image_1.jpg');
-    case 'Ca Cakes': return enc('THEMED CAKES/ca-cakes/Chartered-Accountant-Ledger-Cake/image_1.jpg');
-    case 'Guitar Cakes': return enc('THEMED CAKES/guitar-cakes/Rockstar-Guitar-Theme-Cake/image_1.jpg');
-    case 'Aeorplane Cakes': return enc('THEMED CAKES/aeroplane-cakes/Pilot-Flight-Theme-Cake/image_1.jpg');
-
-    // More Cakes
-    case 'Jungle Theme Cakes': return enc('THEMED CAKES/jungle-theme-cakes/Jungle-Safari-Animal-Cake/image_1.jpg');
-    case 'Football Cakes': return enc('THEMED CAKES/football-cakes/Football-Pitch-Theme-Cake/image_1.jpg');
-    case 'Basketball Cakes': return enc('THEMED CAKES/basketball-cakes/Slam-Dunk-Basketball-Cake/image_1.jpg');
-    case 'Rainbow Cakes': return enc('THEMED CAKES/rainbow-cakes/Vibrant-Rainbow-Layer-Cake/image_1.jpg');
-    case 'Butterfly Cakes': return enc('THEMED CAKES/butterfly-cakes/Beautiful-Butterfly-Swirls/image_1.jpg');
-    case 'Shinchan Cakes': return enc('THEMED CAKES/shinchan-cakes/Naughty-Shinchan-Theme-Cake/image_1.jpg');
-    case 'Dinosaur Cakes': return enc('THEMED CAKES/dinosaur-cakes/Jurassic-Dino-World-Cake/image_1.jpg');
-    case 'Pikachu Cakes': return enc('THEMED CAKES/pikachu-cakes/Cute-Pikachu-Pokemon-Cake/image_1.jpg');
-    case 'Hulk Cakes': return enc('THEMED CAKES/hulk-cakes/Incredible-Hulk-Fist-Cake/image_1.jpg');
-    case 'Jungle Book Cakes': return enc('THEMED CAKES/jungle-book-cakes/Mowgli-Friends-Jungle-Cake/image_1.jpg');
-    case 'All Designer Cakes': return enc('THEMED CAKES/designer-cakes/Masterpiece-Designer-Cake/image_1.jpg');
-
-    // BY RELATIONSHIP
-    case 'Cakes For Husband': return enc('BY RELATIONSHIP/for-husband/Best-Husband-Ever-Cake/image_1.jpg');
-    case 'Cakes For Boyfriend': return enc('BY RELATIONSHIP/for-boyfriend/Blueberry-Heaven-Pull-Me-Up-Cake/image_1.jpg');
-    case 'Cakes For Father': return enc('BY RELATIONSHIP/for-father/Super-Dad-Mustache-Cake/image_1.jpg');
-    case 'Cakes For Brother': return enc('BY RELATIONSHIP/for-brother/Coolest-Brother-Theme-Cake/image_1.jpg');
-    case 'Cakes For Wife': return enc('BY RELATIONSHIP/for-wife/Beautiful-Queen-Crown-Cake/image_1.jpg');
-    case 'Cakes For Mother': return enc('BY RELATIONSHIP/for-mother/Loving-Mother-Floral-Cake/image_1.jpg');
-    case 'Cakes For Girlfriend': return enc('BY RELATIONSHIP/for-girlfriend/Romantic-Red-Roses-Cake/image_1.jpg');
-    case 'Cakes For Sister': return enc('BY RELATIONSHIP/for-sister/Wonderful-Sister-Choco-Cake/image_1.jpg');
-
-    // DESSERTS & HAMPERS
-    case 'All Desserts': return enc('DESSERTS & HAMPERS/all-desserts/Assorted-Cupcake-Indulgence-Box/image_1.jpg');
-    case 'Jar Cakes': return enc('DESSERTS & HAMPERS/jar-cakes/Red-Velvet-Jar-Delight/image_1.jpg');
-    case 'Pastries': return enc('DESSERTS & HAMPERS/pastries/Gourmet-Choco-Pastry/image_1.jpg');
-    case 'Cup Cakes': return enc('DESSERTS & HAMPERS/cup-cakes/Chocolate-Fudge-Cupcake/image_1.jpg');
-    case 'Brownies': return enc('DESSERTS & HAMPERS/brownies/Walnut-Fudge-Brownie/image_1.jpg');
-    case 'Cookies': return enc('DESSERTS & HAMPERS/cookies/Choco-Chip-Crunch-Cookies/image_1.jpg');
-    case 'Tea Cakes': return enc('DESSERTS & HAMPERS/tea-cakes/Premium-Almond-Tea-Cake/image_1.jpg');
-    case 'Gift Hampers': return enc('DESSERTS & HAMPERS/bakery-baskets/Celebration-Treats-Hamper/image_1.jpg');
-    case 'Make Your Own Hamper': return enc('DESSERTS & HAMPERS/make-your-own-hamper-hamp4315/Customizable-Hamper-Kit/image_1.jpg');
-    case 'Assorted Pastry Box': return enc('DESSERTS & HAMPERS/pastries/Assorted-Mini-Pastry-Box/image_1.jpg');
-    case 'Cupcake Delight Box': return enc('DESSERTS & HAMPERS/cup-cakes/Delightful-Cupcake-Assortment/image_1.jpg');
-    case 'Make Your Dessert Box': return enc('DESSERTS & HAMPERS/mixed-magic-dessert-box-hamp4694assorted/Custom-Dessert-Assortment/image_1.jpg');
-
-    // BIRTHDAY
-    case 'Birthday Cakes': return enc('BIRTHDAY/birthday-cakes/Colorful-Sprinkles-Birthday-Cake/image_1.jpg');
-    case 'Birthday Photo Cakes': return enc('BIRTHDAY/birthday-photo-cakes/Cherished-Birthday-Memory-Cake/image_1.jpg');
-    case 'Half Birthday Cakes': return enc('BIRTHDAY/half-cakes/Six-Months-Of-Wonder-Cake/image_1.jpg');
-    case '2nd Birthday Cakes': return enc('BIRTHDAY/2nd-birthday-cakes/Sweet-Two-Theme-Cake/image_1.jpg');
-    case '18th Birthday Cakes': return enc('BIRTHDAY/18th-birthday-cakes/Beautiful-Butterfly-Theme-Cake/image_1.jpg');
-    case '40th Birthday Cakes': return enc('BIRTHDAY/40th-birthday-cakes/Elegant-Ruby-Fortieth-Cake/image_1.jpg');
-    case '50th Birthday Cakes': return enc('BIRTHDAY/50th-birthday-cakes/Golden-Jubilee-Fiftieth-Cake/image_1.jpg');
-
-    // ANNIVERSARY
-    case 'All Anniversary Cakes': return enc('ANNIVERSARY/anniversary-cakes/Eternal-Love-Anniversary-Cake/image_1.jpg');
-    case 'Anniversary Photo Cakes': return enc('ANNIVERSARY/anniversary-photo-cakes/Romantic-Memories-Photo-Cake/image_1.jpg');
-    case 'Anniversary Cakes For Parents': return enc('ANNIVERSARY/anniversary-cakes-for-parents/Blessed-Parents-Anniversary-Cake/image_1.jpg');
-    case '1st Anniversary Cakes': return enc('ANNIVERSARY/1st-anniversary-cakes/First-Year-Bliss-Cake/image_1.jpg');
-    case '5th Anniversary Cakes': return enc('ANNIVERSARY/5th-anniversary-cakes/Woodland-Charm-Fifth-Anniversary/image_1.jpg');
-    case '10th Anniversary Cakes': return enc('ANNIVERSARY/10th-anniversary-cakes/Butterfly-Whimsy-Red-Velvet-Cake/image_1.jpg');
-    case '25th Anniversary Cakes': return enc('ANNIVERSARY/25th-anniversary-cakes/Silver-Jubilee-Milestone-Cake/image_1.jpg');
-    case '50th Anniversary Cakes': return enc('ANNIVERSARY/50th-anniversary-cakes/Golden-Years-Anniversary-Cake/image_1.jpg');
-
-    // OCCASIONS
-    case 'Baby Shower Cakes': return enc('OCCASIONS/baby-shower-cakes/Baby-Boy-Shower-Cake/image_1.jpg');
-    case 'Congratulations Cakes': return enc('OCCASIONS/congratulations-cakes/Bravo-Celebration-Cake/image_1.jpg');
-    case 'Retirement Cakes': return enc('OCCASIONS/retirement-cakes/Happy-Retirement-Milestone-Cake/image_1.jpg');
-    case 'Farewell Cakes': return enc('OCCASIONS/farewell-cakes/Best-Wishes-Farewell-Cake/image_1.jpg');
-    case 'Brother\'s Day Cakes': return enc('OCCASIONS/brothers-day-cakes/World-Best-Brother-Cake/image_1.jpg');
-    case 'Doctors Day Cakes': return enc('OCCASIONS/doctors-day-cakes/Stethoscope-Doctor-Theme-Cake/image_1.jpg');
-    case 'Friendship Day Cakes': return enc('OCCASIONS/friendship-day-cakes/Forever-Friends-Theme-Cake/image_1.jpg');
-    case 'Independence Day Cakes': return enc('OCCASIONS/independence-day-cakes/Tricolor-Patriotic-Cake/image_1.jpg');
-    case 'Rakhi Cakes': return enc('OCCASIONS/rakhi-with-cakes/Sacred-Thread-Rakhi-Cake/image_1.jpg');
-
-    default: return '/hero_cake_1778560729107.png';
-  }
-};
 
 interface CartItem {
   cartId: string;
@@ -812,11 +664,11 @@ export default function BakeryApp() {
 
                   {/* PANEL 2: BENTO */}
                   {activeMegaMenu === 'Bento' && (
-                    <div className="w-full max-w-lg p-6 bg-[#fff7ed] text-center mx-auto">
-                      <p className="text-xs font-extrabold text-stone-400 uppercase tracking-widest mb-4">
-                        Curated Mini Bento Collections
+                    <div className="w-full max-w-md p-6 bg-white text-left mx-auto">
+                      <p className="text-xs font-extrabold text-stone-900 tracking-wider mb-3 flex items-center gap-1.5 px-1">
+                        <span className="text-amber-400 text-sm">✴</span> Curated Bento Collections
                       </p>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      <div className="grid grid-cols-2 gap-2">
                         {['Love', 'Birthday', 'Anniversary', 'Mom', 'Friend', 'All Bento'].map(item => (
                           <button 
                             key={item}
@@ -824,17 +676,9 @@ export default function BakeryApp() {
                               setActiveMegaMenu(null); 
                               router.push('/category/' + deriveSlug(item, 'Bento')); 
                             }}
-                            className="bg-white p-2.5 rounded-xl border border-orange-100 flex flex-col items-center gap-2 hover:border-[#dc2626] group transition-all shadow-xs"
+                            className="w-full text-left py-1.5 px-2 rounded-md hover:bg-red-50 text-stone-700 hover:text-[#dc2626] font-semibold text-xs transition-colors block truncate"
                           >
-                            <img 
-                              src={getDropdownItemImage(item)} 
-                              alt={item} 
-                              className="w-11 h-11 rounded-full object-cover border border-orange-100 group-hover:border-red-300 shadow-2xs" 
-                              onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/hero_cake_1778560729107.png'; }}
-                            />
-                            <span className="text-xs font-extrabold text-stone-800 group-hover:text-[#dc2626] transition-colors">
-                              {item}
-                            </span>
+                            {item}
                           </button>
                         ))}
                       </div>
@@ -1309,42 +1153,42 @@ export default function BakeryApp() {
             {[
               { 
                 label: 'Cakes', 
-                img: '/api/image?path=' + encodeURIComponent('cakes/anime-cakes/Baby-Goku-DBZ-Theme-Cake/image_1.jpg'), 
+                img: '/categories/cakes.jpg', 
                 act: () => { setSelectedCategory('cakes'); setSearchQuery(''); setActiveMegaMenu('Cakes'); } 
               },
               { 
                 label: 'Bento', 
-                img: '/api/image?path=' + encodeURIComponent('BENTO/anniversary-bento-cakes/Anniversary-Calendar-Bento-Cake/image_1.jpg'), 
+                img: '/categories/bento.jpg', 
                 act: () => { setSearchQuery('bento'); setSelectedCategory('all'); setActiveMegaMenu('Bento'); } 
               },
               { 
                 label: 'Theme Cakes', 
-                img: '/api/image?path=' + encodeURIComponent('THEMED CAKES/1st-birthday-cakes/Baby-Shark-Theme-Fondant-Cake/image_1.jpg'), 
+                img: '/categories/theme.jpg', 
                 act: () => { setSelectedCategory('designer'); setSearchQuery(''); setActiveMegaMenu('Theme Cakes'); } 
               },
               { 
                 label: 'By Relationship', 
-                img: '/api/image?path=' + encodeURIComponent('BY RELATIONSHIP/for-boyfriend/Blueberry-Heaven-Pull-Me-Up-Cake/image_1.jpg'), 
+                img: '/categories/relationship.jpg', 
                 act: () => { setSearchQuery('relationship'); setSelectedCategory('all'); setActiveMegaMenu('By Relationship'); } 
               },
               { 
                 label: 'Desserts & Hampers', 
-                img: '/api/image?path=' + encodeURIComponent('DESSERTS & HAMPERS/all-desserts/Assorted-Cupcake-Indulgence-Box/image_1.jpg'), 
+                img: '/categories/desserts.jpg', 
                 act: () => { setSelectedCategory('desserts'); setSearchQuery(''); setActiveMegaMenu('Desserts & Hampers'); } 
               },
               { 
                 label: 'Birthday', 
-                img: '/api/image?path=' + encodeURIComponent('BIRTHDAY/18th-birthday-cakes/Beautiful-Butterfly-Theme-Cake/image_1.jpg'), 
+                img: '/categories/birthday.jpg', 
                 act: () => { setSearchQuery('birthday'); setSelectedCategory('all'); setActiveMegaMenu('Birthday'); } 
               },
               { 
                 label: 'Anniversary', 
-                img: '/api/image?path=' + encodeURIComponent('ANNIVERSARY/10th-anniversary-cakes/Butterfly-Whimsy-Red-Velvet-Cake/image_1.jpg'), 
+                img: '/categories/anniversary.jpg', 
                 act: () => { setSearchQuery('anniversary'); setSelectedCategory('all'); setActiveMegaMenu('Anniversary'); } 
               },
               { 
                 label: 'Occasions', 
-                img: '/api/image?path=' + encodeURIComponent('OCCASIONS/baby-shower-cakes/Baby-Boy-Shower-Cake/image_1.jpg'), 
+                img: '/categories/occasions.jpg', 
                 act: () => { setSearchQuery('occasion'); setSelectedCategory('all'); setActiveMegaMenu('Occasions'); } 
               },
             ].map((capsule) => {
