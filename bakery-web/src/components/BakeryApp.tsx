@@ -365,6 +365,12 @@ export default function BakeryApp() {
   const [bannerEmail, setBannerEmail] = useState<string>('');
   const [bannerSubscribed, setBannerSubscribed] = useState<boolean>(false);
 
+  // Pagination state: default showing 30 cakes
+  const [visibleCount, setVisibleCount] = useState<number>(30);
+  useEffect(() => {
+    setVisibleCount(30);
+  }, [selectedCategory, selectedFlavour, searchQuery, isEgglessOnly]);
+
   // Safe external image handler logic
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>, fallbackSrc: string = '/choco_truffle_cake_1778560769498.png') => {
     e.currentTarget.onerror = null;
@@ -1529,7 +1535,7 @@ export default function BakeryApp() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <AnimatePresence>
-              {filteredProducts.map((prod, i) => {
+              {filteredProducts.slice(0, visibleCount).map((prod, i) => {
                 const isSaved = wishlistIds.includes(prod.id);
                 return (
                   <motion.div 
@@ -1664,6 +1670,27 @@ export default function BakeryApp() {
           </div>
         )}
 
+        {/* SHOW MORE PAGINATION TRIGGER */}
+        {filteredProducts.length > visibleCount && (
+          <motion.div 
+            layout
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-12 flex justify-center"
+          >
+            <button
+              onClick={() => setVisibleCount(prev => prev + 30)}
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white border border-stone-200 text-stone-900 font-bold hover:border-rose-300 hover:text-rose-600 shadow-xs hover:shadow-md transition-all duration-300 group cursor-pointer"
+            >
+              <span>Display More Handcrafted Delicacies</span>
+              <span className="bg-stone-100 text-stone-600 text-xs px-2.5 py-1 rounded-lg font-black group-hover:bg-rose-50 group-hover:text-rose-600 transition-colors">
+                Showing {visibleCount} of {filteredProducts.length}
+              </span>
+              <ChevronRight className="w-4 h-4 text-stone-400 group-hover:text-rose-600 group-hover:translate-x-0.5 transition-all" />
+            </button>
+          </motion.div>
+        )}
+
       </section>
 
       {/* FOOTER DESCRIPTIVE SEO CATALOG INFO SECTION */}
@@ -1769,6 +1796,87 @@ export default function BakeryApp() {
             </div>
           </div>
           
+          {/* AUTHENTIC HERITAGE FOOTER SIGNAGE ASSET */}
+          <div className="bg-stone-950 rounded-3xl border border-stone-800 p-6 sm:p-8 mb-12 shadow-2xl relative overflow-hidden text-left">
+            {/* Header Heritage Indicator */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-stone-900">
+              <div className="flex items-center gap-3">
+                <span className="bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full">
+                  📜 Heritage Flagship Signage
+                </span>
+                <span className="text-stone-400 text-xs font-bold font-playfair">Baking Since 1950</span>
+              </div>
+              <div className="flex items-center gap-3 text-xs font-mono font-bold text-stone-300 bg-stone-900/80 px-3.5 py-1.5 rounded-xl border border-stone-800">
+                <span>📞 Hotline:</span>
+                <a href="tel:9634036448" className="hover:text-amber-400 transition-colors">9634036448</a>
+                <span className="text-stone-600">|</span>
+                <a href="tel:9557187486" className="hover:text-amber-400 transition-colors">9557187486</a>
+              </div>
+            </div>
+
+            {/* Embedded high-fidelity Signage Image */}
+            <div className="rounded-2xl overflow-hidden bg-stone-900/40 border border-stone-800/80 flex justify-center mb-8 shadow-inner p-2">
+              <img 
+                src="/footer.png" 
+                alt="Downtown Bakers Signage - 90 Moti Bazar D.Dun" 
+                className="w-full max-w-5xl object-contain rounded-xl transform hover:scale-[1.01] transition-transform duration-500 max-h-[360px]"
+              />
+            </div>
+
+            {/* Authenticated Heritage Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-stone-900">
+              
+              {/* Main HQ Info */}
+              <div className="bg-stone-900/40 p-4 rounded-xl border border-stone-900">
+                <span className="text-[10px] font-bold text-amber-500 uppercase tracking-wider block mb-1">HQ Store Location</span>
+                <p className="text-sm font-extrabold text-white font-playfair tracking-wide">
+                  90, MOTI BAZAR, D.DUN
+                </p>
+                <p className="text-xs text-stone-400 mt-1 leading-relaxed">
+                  Visit our historical Dehradun base for fresh oven deliveries and master bakery consulting sessions.
+                </p>
+              </div>
+
+              {/* Treat Authorized Dealership */}
+              <div className="bg-stone-900/40 p-4 rounded-xl border border-stone-900">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="font-playfair font-black text-rose-500 italic text-base leading-none">Treat</span>
+                  <span className="text-[9px] bg-rose-500/10 text-rose-400 border border-rose-500/20 px-1.5 py-0.5 rounded font-black uppercase tracking-wider">Auth. Dealer</span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-xs bg-stone-900 text-stone-300 font-bold px-2.5 py-1 rounded-md border border-stone-800">🍞 Treat Bread</span>
+                  <span className="text-xs bg-stone-900 text-stone-300 font-bold px-2.5 py-1 rounded-md border border-stone-800">🥖 Treat Rusk</span>
+                  <span className="text-xs bg-stone-900 text-stone-300 font-bold px-2.5 py-1 rounded-md border border-stone-800">🥨 Treat Namkeen</span>
+                </div>
+              </div>
+
+              {/* Speciality Lineup */}
+              <div className="bg-stone-900/40 p-4 rounded-xl border border-stone-900">
+                <span className="text-[11px] font-playfair font-black text-amber-500 italic tracking-wider block mb-2.5">Speciality Confectioneries</span>
+                <ul className="space-y-1.5 text-xs text-stone-300 font-medium">
+                  <li className="flex items-center gap-2">
+                    <span className="text-amber-500 text-xs shrink-0">🧁</span>
+                    <span>All Types of Theme Cakes</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-amber-500 text-xs shrink-0">🧁</span>
+                    <span>Eggless Birthday Cakes</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-amber-500 text-xs shrink-0">🍪</span>
+                    <span>Butter Pista Cookies</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-amber-500 text-xs shrink-0">🥖</span>
+                    <span>Elaichi Rusk Specialties</span>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-stone-800">
             
             <div className="md:col-span-1">
